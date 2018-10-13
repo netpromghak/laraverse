@@ -78,7 +78,7 @@
                     <!-- Bio -->
                     <div class="form-group">
                         <textarea v-model="form.bio" name="bio" id="bio"
-                        placeholder="Bio"
+                        placeholder="Bio (Optional)"
                             class="form-control" :class="{ 'is-invalid': form.errors.has('bio') }">
                         </textarea>
                         <has-error :form="form" field="bio"></has-error>
@@ -135,12 +135,27 @@
                     .then(({ data }) => (this.users = data.data ))
             },
             createUser() {
+                this.$Progress.start()
                 this.form.post('api/user')
+                    .then( () => {
+                         Shoot.$emit('AfterCreated')
+                        $('#addNew').modal('hide');
+                        toast({
+                            type: 'success',
+                            title: 'New User Created Successfully'
+                        })
+                        this.$Progress.finish()
+                    })
+                    .catch()
+               
             }
         }
         ,
-        mounted() {
+        created() {
             this.getUsers()
+            Shoot.$on('AfterCreated', () => {
+                this.getUsers()
+            })
         }
     }
 </script>

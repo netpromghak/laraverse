@@ -11,18 +11,31 @@ window.Vue = require('vue');
 
 import moment from 'moment'
 import { Form, HasError, AlertError } from 'vform'
+import VueProgressBar from 'vue-progressbar'
+import swal from 'sweetalert2'
+
 window.Form = Form
+
+window.swal = swal
+
+let toast = swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+  })
+
+window.toast = toast
+
 
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
-
-
 import VueRouter from 'vue-router'
 
-
-
 Vue.use(VueRouter)
+
+
 
 let routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue') },
@@ -31,7 +44,7 @@ let routes = [
   ]
 
 
-const router = new VueRouter({
+let router = new VueRouter({
     mode: 'history',
     routes
 
@@ -46,11 +59,18 @@ Vue.filter('capText', (text)=> {
 Vue.filter('prettyDate', (prettyDate)=> {
     return moment(prettyDate).format('MMMM Do YYYY, h:mm:ss a');
 })
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+
+Vue.use(VueProgressBar, {
+    color: 'rgb(143, 255, 199)',
+    failedColor: 'red',
+    height: '4px'
+  })
+
+
+//   sending request to refresh user list after created
+
+
+window.Shoot = new Vue()
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
