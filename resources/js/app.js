@@ -39,6 +39,7 @@ Vue.use(VueRouter)
 
 let routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue') },
+    { path: '/developer', component: require('./components/Developer.vue') },
     { path: '/users', component: require('./components/Users.vue') },
     { path: '/profile', component: require('./components/Profile.vue') }
   ]
@@ -69,9 +70,23 @@ Vue.use(VueProgressBar, {
 
 //   sending request to refresh user list after created
 
-
 window.Shoot = new Vue()
 
+
+Vue.component(
+  'passport-clients',
+  require('./components/passport/Clients.vue')
+);
+
+Vue.component(
+  'passport-authorized-clients',
+  require('./components/passport/AuthorizedClients.vue')
+);
+
+Vue.component(
+  'passport-personal-access-tokens',
+  require('./components/passport/PersonalAccessTokens.vue')
+);
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
 const app = new Vue({

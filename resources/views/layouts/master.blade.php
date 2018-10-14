@@ -11,7 +11,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta http-equiv="x-ua-compatible" content="ie=edge">
    <!-- CSRF Token -->
    <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>AdminLTE 3 | Starter</title>
+  <title>Laraverse | mghak</title>
 
     <link rel="stylesheet" href="/css/app.css">
 </head>
@@ -146,7 +146,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <a href="index3.html" class="brand-link">
       <img src="./img/logo.png" alt="larastart Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">Lara Start</span>
+      <span class="brand-text font-weight-light">Laraverse</span>
     </a>
 
     <!-- Sidebar -->
@@ -172,11 +172,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <p>Dashboard</p>
             </router-link>
           </li>
+          <li class="nav-item">
+            <router-link to="/profile" class="nav-link">
+              <i class="nav-icon fas fa-user orange"></i>
+              <p>Profile</p>
+            </router-link>
+          </li>
           <li class="nav-item has-treeview">  <!--add this class to make menu open in default .menu-open -->
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-cog green"></i>
               <p>
-                Management
+                Setting
                 <i class="right fa fa-angle-left"></i>
               </p>
             </a>
@@ -189,6 +195,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
           </li>
+          <li class="nav-item">
+            <router-link to="/developer" class="nav-link">
+              <i class="nav-icon fas fa-user-cog yellow"></i>
+              <p>Developer</p>
+            </router-link>
+          </li>
           {{-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fa fa-th"></i>
@@ -197,13 +209,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <span class="right badge badge-danger">New</span>
               </p>
             </a>
-          </li> --}}
-          <li class="nav-item">
-            <router-link to="/profile" class="nav-link">
-              <i class="nav-icon fas fa-user orange"></i>
-              <p>Profile</p>
-            </router-link>
-          </li>
+          </li> --}}          
           <li class="nav-item">
             {{-- <a href="#" class="nav-link">
               <i class="nav-icon fas fa-power-off"></i>
@@ -278,7 +284,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       Anything you want
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2018 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2018 <a href="mghak.host">mghak.host</a>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->

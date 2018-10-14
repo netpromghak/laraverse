@@ -7,7 +7,7 @@
                 <h3 class="card-title">Users List</h3>
 
                 <div class="card-tools">
-                  <button class="btn btn-success" data-toggle="modal" data-target="#addNew">Add New <i class="fas fa-user-plus fa-fw"></i></button>
+                  <button class="btn btn-success" data-toggle="modal" data-target="#addNew" @click="popNewUserModal">Add New <i class="fas fa-user-plus fa-fw"></i></button>
                 </div>
               </div>
               <!-- /.card-header -->
@@ -31,10 +31,10 @@
                             <td>{{ user.type | capText }}</td>
                             <td>{{ user.created_at | prettyDate }}</td>
                             <td>                      
-                                <a href="#" class="orange">
+                                <a href="#" class="orange" @click="popEditUserModal(user)">
                                     <i class="fas fa-edit"></i>
                                 </a> /
-                                <a href="#" class="red">
+                                <a href="#" class="red" @click="deleteUser(user.id)">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
@@ -53,12 +53,13 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addNewLabel">Add User</h5>
+                <h5 v-show="!editMode" class="modal-title" id="addNewLabel">Fill User Information <i class="fas fa-user"></i></h5>
+                <h5 v-show="editMode" class="modal-title" id="addNewLabel">Edit User Information <i class="fas fa-edit"></i></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form @submit.prevent="createUser">
+            <form @submit.prevent="editMode ? updateUser() : createUser()">
                 <div class="modal-body">
                     <!-- Username -->
                     <div class="form-group">
@@ -105,7 +106,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="reset" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button v-show="editMode" type="submit" class="btn btn-success">Update</button>
+                    <button v-show="!editMode" type="submit" class="btn btn-primary">Save</button>
                 </div>
             </form>
             </div>
@@ -118,8 +120,10 @@
     export default {
         data(){
             return {
+                editMode: false,
                 users: {},
                 form: new Form({
+                    id: '',
                     name: '',
                     email: '',
                     password: '',
@@ -138,22 +142,79 @@
                 this.$Progress.start()
                 this.form.post('api/user')
                     .then( () => {
-                         Shoot.$emit('AfterCreated')
-                        $('#addNew').modal('hide');
+                        Shoot.$emit('loadUsers')
+                        $('#addNew').modal('hide')
                         toast({
                             type: 'success',
                             title: 'New User Created Successfully'
                         })
                         this.$Progress.finish()
                     })
-                    .catch()
+                    .catch(() => {
+                        this.$Progress.fail()
+                    })
                
+            },
+            updateUser(){
+                this.$Progress.start()
+                this.form.put('api/user/'+this.form.id)
+                    .then( () => {
+                        this.$Progress.finish()
+                        $('#addNew').modal('hide')
+                        toast({
+                            type: 'success',
+                            title: 'User Info Updated Successfully'
+                        })
+                        Shoot.$emit('loadUsers')
+                    })
+                    .catch( () => {
+                        this.$Progress.fail()
+                    })
+                
+            },
+            deleteUser(user_id) {
+                swal({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+
+                    // Send Ajax Request to Delete
+                    this.form.delete('api/user/'+user_id).then( () => {
+
+                        if (result.value) {
+                            swal(
+                            'Deleted!',
+                            'User have been deleted.',
+                            'success'
+                            )
+                            Shoot.$emit('loadUsers')
+                        }
+                    }).catch( () => {
+                        swal('Failed', 'Something went wrong!', 'warning')
+                    })
+                })
+            },
+            popNewUserModal() {
+            this.editMode = false
+            this.form.reset()
+            $('#addNew').modal('show')
+            },
+            popEditUserModal(user) {
+            this.editMode = true
+            this.form.reset()
+            $('#addNew').modal('show')
+            this.form.fill(user)
             }
-        }
-        ,
+        },
+        
         created() {
             this.getUsers()
-            Shoot.$on('AfterCreated', () => {
+            Shoot.$on('loadUsers', () => {
                 this.getUsers()
             })
         }
