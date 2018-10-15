@@ -96,7 +96,7 @@
                         </select>
                         <has-error :form="form" field="name"></has-error>
                     </div>
-
+                    <!-- Password -->
                     <div class="form-group">
                         <label>Password</label>
                         <input v-model="form.password" type="password" name="password"
