@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -154,10 +153,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="./img/profile.png" class="img-circle elevation-2" alt="User Image">
+        <img src="{{'/img/profile/' . Auth::user()->photo}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+        <a href="#" class="d-block">{{ Auth::user()->name }} | <small>{{ Auth::user()->type }}</small></a>
+         
         </div>
       </div>
 
@@ -187,20 +187,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
             <ul class="nav nav-treeview">
+              @can('isAdmin')
               <li class="nav-item ml-4">
                 <router-link to="/users" class="nav-link">
                   <i class="fas fa-users nav-icon"></i>
                   <p>Users</p>
                 </router-link>
               </li>
+              @endcan
             </ul>
           </li>
+          @can('isAdmin')
           <li class="nav-item">
             <router-link to="/developer" class="nav-link">
               <i class="nav-icon fas fa-user-cog yellow"></i>
               <p>Developer</p>
             </router-link>
           </li>
+          @endcan
           {{-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fa fa-th"></i>
@@ -288,7 +292,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
   </footer>
 </div>
 <!-- ./wrapper -->
-
+@auth
+  <script>
+    window.user = @json(auth()->user());  
+  </script>  
+@endauth
 <script src="/js/app.js"></script>
 </body>
 </html>

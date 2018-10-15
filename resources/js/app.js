@@ -13,6 +13,10 @@ import moment from 'moment'
 import { Form, HasError, AlertError } from 'vform'
 import VueProgressBar from 'vue-progressbar'
 import swal from 'sweetalert2'
+import VueGate from './vueGate'
+
+
+Vue.prototype.$vueGate = new VueGate(window.user);
 
 window.Form = Form
 

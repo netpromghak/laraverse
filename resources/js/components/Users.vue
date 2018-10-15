@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row mt-5">
           <div class="col-12">
-            <div class="card">
+            <div class="card" v-if="$vueGate.isAdmin()">
               <div class="card-header">
                 <h3 class="card-title">Users List</h3>
 
@@ -135,8 +135,10 @@
         },
         methods: {
             getUsers() {
-                axios.get('api/user')
+                if(this.$vueGate.isAdmin()) {
+                    axios.get('api/user')
                     .then(({ data }) => (this.users = data.data ))
+                }
             },
             createUser() {
                 this.$Progress.start()

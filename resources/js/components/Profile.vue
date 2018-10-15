@@ -249,7 +249,7 @@
               })
           },
           getUserPhoto() {
-            let photoUrl = (this.form.photo.length > 200) ? this.form.photo : 'img/profile/'+this.form.photo
+            let photoUrl = (this.form.photo.length > 100) ? this.form.photo : 'img/profile/'+this.form.photo
             return photoUrl
           }
         },
