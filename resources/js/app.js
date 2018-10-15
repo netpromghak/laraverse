@@ -69,7 +69,7 @@ Vue.use(VueProgressBar, {
     color: 'rgb(143, 255, 199)',
     failedColor: 'red',
     height: '4px'
-  })
+})
 
 
 //   sending request to refresh user list after created
@@ -90,6 +90,10 @@ Vue.component(
 Vue.component(
   'passport-personal-access-tokens',
   require('./components/passport/PersonalAccessTokens.vue')
+);
+Vue.component(
+  'not-found',
+  require('./components/NotFound.vue')
 );
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
